@@ -1,3 +1,5 @@
+'use client'
+
 // src/components/layout/LegalLayout.tsx
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'

@@ -1,13 +1,17 @@
 'use client'
 
-import Link from "next/link"
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
 
+type UserInfo = {
+  email: string
+  [key: string]: any
+}
+
 export default function DashboardPage() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<UserInfo | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -16,17 +20,12 @@ export default function DashboardPage() {
       if (!user) {
         router.push("/auth/login")
       } else {
-        setUser(user)
+        setUser(user as UserInfo)
         setLoading(false)
       }
     }
     checkAuth()
   }, [router])
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut()
-    router.push("/")
-  }
 
   if (loading) {
     return (
@@ -38,10 +37,10 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-neutral-50 text-gray-900">
-
-      {/* Innhold */}
       <div className="max-w-6xl mx-auto py-12 px-4 space-y-8">
-        <h1 className="text-3xl font-bold text-indigo-700 text-center">Velkommen tilbake, {user?.email} 👋</h1>
+        <h1 className="text-3xl font-bold text-indigo-700 text-center">
+          Velkommen tilbake, {user?.email} 👋
+        </h1>
 
         <section className="grid gap-6 md:grid-cols-2">
           <div className="bg-white rounded-xl shadow p-6 border">

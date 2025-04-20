@@ -5,8 +5,13 @@ import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import Link from "next/link"
 
+type UserInfo = {
+  email: string
+  [key: string]: any
+}
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState<UserInfo | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
@@ -16,7 +21,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       if (!user) {
         router.push("/auth/login")
       } else {
-        setUser(user)
+        setUser(user as UserInfo)
         setLoading(false)
       }
     }

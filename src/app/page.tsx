@@ -1,12 +1,23 @@
-'use client'
-
 import Link from "next/link"
 
 export default function Home() {
   return (
     <main className="bg-neutral-50 text-gray-900 min-h-screen">
+      {/* Navbar */}
+      <nav className="flex items-center justify-between px-6 py-4 shadow-sm bg-white sticky top-0 z-50">
+        <div className="text-2xl font-bold text-indigo-600">Mindora</div>
+        <ul className="hidden md:flex gap-6 text-sm font-medium">
+          <li><a href="#features" className="hover:text-indigo-600">Funksjoner</a></li>
+          <li><a href="#target" className="hover:text-indigo-600">For hvem</a></li>
+          <li><a href="#cta" className="hover:text-indigo-600">Kom i gang</a></li>
+        </ul>
+        <Link href="/auth/signup">
+          <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition text-sm">Registrer deg</button>
+        </Link>
+      </nav>
+
       {/* Hero */}
-      <section className="py-24 text-center px-4">
+      <section className="py-24 text-center px-4 bg-gradient-to-b from-white to-indigo-50" id="cta">
         <h1 className="text-5xl font-bold mb-4 text-indigo-600">Velkommen til Mindora</h1>
         <p className="text-lg text-gray-600 max-w-xl mx-auto mb-6">
           Bygg vaner som varer. Reflekter med innsikt. Fokuser uten stress.
@@ -19,8 +30,8 @@ export default function Home() {
       </section>
 
       {/* Funksjoner */}
-      <section className="py-20 bg-white">
-        <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-8 text-center">
+      <section className="py-20 bg-white" id="features">
+        <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-12 text-center">
           <div>
             <h3 className="text-xl font-semibold mb-2">🧱 Vaner og mål</h3>
             <p className="text-sm text-gray-600">Lag daglige vaner og følg progresjon med visualisering og AI-motivasjon.</p>
@@ -37,16 +48,27 @@ export default function Home() {
       </section>
 
       {/* For hvem */}
-      <section className="py-20 bg-indigo-50 text-center">
+      <section className="py-20 bg-indigo-50 text-center px-6" id="target">
         <h2 className="text-3xl font-bold mb-4">Hvem er Mindora for?</h2>
         <p className="text-gray-700 max-w-2xl mx-auto">
-          Enten du er student, gründer, eller bare ønsker mer struktur i hverdagen, gir Mindora deg verktøyene for å utvikle deg selv – ett skritt av gangen.
+          Enten du er student, gründer, leder eller bare ønsker mer struktur i hverdagen, gir Mindora deg verktøyene for å utvikle deg selv – ett skritt av gangen. Du får støtte i form av innsikt, visualisering, AI og egen refleksjon.
         </p>
+      </section>
+
+      {/* Call to action */}
+      <section className="py-20 bg-white text-center">
+        <h2 className="text-2xl font-semibold mb-4">Klar for å starte din utviklingsreise?</h2>
+        <p className="text-gray-600 mb-6">Registrer deg gratis og få tilgang til dine egne mål, refleksjoner og fokusverktøy.</p>
+        <Link href="/auth/signup">
+          <button className="bg-indigo-600 text-white px-6 py-3 rounded-xl text-lg hover:bg-indigo-700 transition">
+            Opprett konto
+          </button>
+        </Link>
       </section>
 
       {/* Footer */}
       <footer className="py-10 text-center text-sm text-gray-500">
-        © 2025 Mindora. Alle rettigheter reservert.
+        © 2025 Mindora. Alle rettigheter reservert. | <a href="#" className="underline">Personvern</a>
       </footer>
     </main>
   )

@@ -25,28 +25,42 @@ export default function SignupForm() {
       alert('Klarte ikke hente reCAPTCHA-token.')
       return
     }
-
-    // 👉 Du kan sende token til en API-route for servervalidering her hvis ønskelig
-
+  
+    // ✅ 1. Verifiser tokenet mot backend før du oppretter bruker
+    const verify = await fetch('/api/verify-recaptcha', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token: recaptchaToken }),
+    })
+  
+    const verifyResult = await verify.json()
+  
+    if (!verify.ok || !verifyResult.success) {
+      alert('Vi kunne ikke verifisere at du er et menneske. Prøv igjen.')
+      return
+    }
+  
+    // ✅ 2. Fortsett som før: registrer og logg inn brukeren
     const { email, password } = data
-
+  
     const { error: signupError } = await supabase.auth.signUp({ email, password })
-
+  
     if (signupError) {
       setError(signupError.message)
       return
     }
-
+  
     const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
-
+  
     if (loginError) {
       setError(loginError.message)
       return
     }
-
+  
     const redirectedFrom = searchParams.get('redirectedFrom') || '/dashboard'
     router.push(redirectedFrom)
   }
+  
 
   return (
     <div className="w-full max-w-md bg-white p-8 rounded-xl shadow">

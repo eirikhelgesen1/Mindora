@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase/client"
 import { Analytics } from "@vercel/analytics/react"
 import Navbar from "@/components/navbar-with-popover"
 import '@/styles/mindora-colors.css';
+import InterestForm from "@/components/InterestForm"
 
 export default function Home() {
   const [, setUser] = useState<null | object>(null)
@@ -29,7 +30,7 @@ export default function Home() {
         </p>
         <Link href="/auth/signup">
           <button className="bg-green-900 text-white px-6 py-3 rounded-xl text-lg hover:bg-[var(--color-accent)] transition-colors duration-200">
-            Kom i gang gratis
+            Meld interesse
           </button>
         </Link>
       </section>
@@ -61,16 +62,8 @@ export default function Home() {
         </p>
       </section>
 
-      {/* Call to action */}
-      <section className="py-20 bg-[var(--color-background)] text-center">
-        <h2 className="text-2xl font-semibold mb-4">Klar for å starte din utviklingsreise?</h2>
-        <p className="text-gray-600 mb-6">Registrer deg gratis og få tilgang til dine egne mål, refleksjoner og fokusverktøy.</p>
-        <Link href="/auth/signup">
-          <button className="bg-[var(--color-primary)] text-white px-6 py-3 rounded-xl text-lg hover:bg-[var(--color-accent)] transition">
-            Opprett konto
-          </button>
-        </Link>
-      </section>
+     {/* Interesse-skjema */}
+      <InterestForm />
 
       {/* Footer */}
       <footer className="py-10 text-center text-sm text-[var(--coloar-primary)] bg-white">

@@ -53,10 +53,11 @@ export default function Navbar() {
           <a href="#target" className="text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-200">
             For hvem
           </a>
-          <a href="#cta" className="text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-200">
+          <a href="#intrest" className="text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-200">
             Kom i gang
           </a>
         </PopoverGroup>
+        {/*
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {user ? (
             <Link href="/dashboard" className="text-sm font-semibold text-gray-900">
@@ -73,6 +74,7 @@ export default function Navbar() {
             </div>
           )}
         </div>
+        */}
       </nav>
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">
         <div className="fixed inset-0 z-10" />

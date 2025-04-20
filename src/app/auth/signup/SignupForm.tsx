@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { useRouter, useSearchParams } from 'next/navigation'
-import ReCAPTCHA from 'react-google-recaptcha'
+import { useRecaptchaToken } from '@/hooks/useRecaptchaToken'
 
 type FormData = {
   email: string
@@ -14,15 +14,19 @@ type FormData = {
 export default function SignupForm() {
   const { register, handleSubmit } = useForm<FormData>()
   const [error, setError] = useState('')
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null)
   const router = useRouter()
   const searchParams = useSearchParams()
 
+  // ✅ Bruk recaptchaToken direkte fra hook
+  const recaptchaToken = useRecaptchaToken('signup')
+
   const onSubmit = async (data: FormData) => {
     if (!recaptchaToken) {
-      alert('Vennligst bekreft at du ikke er en robot.')
+      alert('Klarte ikke hente reCAPTCHA-token.')
       return
     }
+
+    // 👉 Du kan sende token til en API-route for servervalidering her hvis ønskelig
 
     const { email, password } = data
 
@@ -33,7 +37,6 @@ export default function SignupForm() {
       return
     }
 
-    // Automatisk innlogging etter registrering
     const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
 
     if (loginError) {
@@ -60,7 +63,7 @@ export default function SignupForm() {
           <label className="block text-sm font-medium">E-post</label>
           <input
             type="email"
-            {...register("email", { required: true })}
+            {...register('email', { required: true })}
             className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
           />
         </div>
@@ -68,15 +71,10 @@ export default function SignupForm() {
           <label className="block text-sm font-medium">Passord</label>
           <input
             type="password"
-            {...register("password", { required: true })}
+            {...register('password', { required: true })}
             className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
           />
         </div>
-
-        <ReCAPTCHA
-          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''}
-          onChange={(token: string | null) => setRecaptchaToken(token)}
-        />
 
         <button
           type="submit"

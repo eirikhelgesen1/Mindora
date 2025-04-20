@@ -95,7 +95,12 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="py-10 text-center text-sm text-gray-500">
-        © 2025 Mindora. Alle rettigheter reservert. | <a href="#" className="underline">Personvern</a>
+        © 2025 Mindora. Alle rettigheter reservert.
+        <p>
+          <Link href="/privacy" className="underline mr-4">Personvern</Link>
+          <Link href="/terms" className="underline mr-4">Vilkår</Link>
+          <Link href="/cookies" className="underline">Cookies</Link>
+        </p>
       </footer>
     </main>
   )

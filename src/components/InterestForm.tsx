@@ -35,8 +35,8 @@ export default function InterestForm() {
         return
       }
 
-      // ✅ Send e-post til Supabase
-      const { error } = await insertInterest(email)
+      // ✅ Send navn og e-post til Supabase
+      const { error } = await insertInterest({ email, name })
       if (error) {
         setError("Noe gikk galt, prøv igjen.")
       } else {
@@ -112,6 +112,6 @@ declare global {
       ready: (cb: () => void) => void
       execute: (siteKey: string, options: { action: string }) => Promise<string>
     }
-    gtag?: (...args: any[]) => void
+    gtag?: (...args: unknown[]) => void
   }
 }

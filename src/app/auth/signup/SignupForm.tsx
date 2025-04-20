@@ -1,117 +1,133 @@
 'use client'
 
-// 📦 react-hook-form brukes for håndtering av inputfelter og validering
 import { useForm } from 'react-hook-form'
-// 🎯 useState brukes for å håndtere feilmeldinger
 import { useState } from 'react'
-// 🔐 Supabase-klienten for autentisering
 import { supabase } from '@/lib/supabase/client'
-// 🧭 Router og URL-parametere fra Next.js
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Loader2 } from 'lucide-react'
 
-// 🎯 Definerer hvilke felter skjemaet inneholder og hvilken type de har
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+
+// Typedef for skjema
 type FormData = {
   email: string
   password: string
 }
 
 export default function SignupForm() {
-  // 🎯 Initialiserer react-hook-form for å håndtere skjemaet
   const { register, handleSubmit } = useForm<FormData>()
-  const [error, setError] = useState('') // Brukes til å vise feilmeldinger i UI
-  const router = useRouter() // Navigasjon etter vellykket innlogging
-  const searchParams = useSearchParams() // Fanger eventuell redirect
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+  const searchParams = useSearchParams()
 
-  // 🔁 Kjøres når brukeren sender inn skjemaet
   const onSubmit = async (data: FormData) => {
+    setLoading(true)
     const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!
 
-    // 🔐 Genererer nytt reCAPTCHA-token når skjemaet sendes inn
-    const recaptchaToken = await window.grecaptcha.execute(siteKey, {
-      action: 'signup',
-    })
+    try {
+      const recaptchaToken = await window.grecaptcha.execute(siteKey, {
+        action: 'signup',
+      })
 
-    if (!recaptchaToken) {
-      alert('Klarte ikke hente reCAPTCHA-token.')
-      return
+      if (!recaptchaToken) {
+        alert('Klarte ikke hente reCAPTCHA-token.')
+        setLoading(false)
+        return
+      }
+
+      const verify = await fetch('/api/verify-recaptcha', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: recaptchaToken }),
+      })
+
+      const verifyResult = await verify.json()
+
+      if (!verify.ok || !verifyResult.success || verifyResult.score < 0.5) {
+        alert('Vi kunne ikke verifisere at du er et menneske. Prøv igjen.')
+        setLoading(false)
+        return
+      }
+
+      const { email, password } = data
+      const { error: signupError } = await supabase.auth.signUp({ email, password })
+
+      if (signupError) {
+        setError(signupError.message)
+        setLoading(false)
+        return
+      }
+
+      const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
+
+      if (loginError) {
+        setError(loginError.message)
+        setLoading(false)
+        return
+      }
+
+      const redirectedFrom = searchParams.get('redirectedFrom') || '/dashboard'
+      router.push(redirectedFrom)
+    } catch (err) {
+      console.error('Uventet feil:', err)
+      alert('Noe gikk galt. Prøv igjen senere.')
+      setLoading(false)
     }
-
-    // 🔍 Sender token til backend for validering mot Google
-    const verify = await fetch('/api/verify-recaptcha', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ token: recaptchaToken }),
-    })
-
-    const verifyResult = await verify.json()
-
-    // ❌ Stopper registrering hvis token ikke er gyldig eller scoren er for lav
-    if (!verify.ok || !verifyResult.success || verifyResult.score < 0.5) {
-      alert('Vi kunne ikke verifisere at du er et menneske. Prøv igjen.')
-      return
-    }
-
-    // 📩 Brukeren er verifisert – fortsett med Supabase-registrering
-    const { email, password } = data
-    const { error: signupError } = await supabase.auth.signUp({ email, password })
-
-    // ❌ Viser feil hvis registrering feiler
-    if (signupError) {
-      setError(signupError.message)
-      return
-    }
-
-    // 🔑 Logger inn brukeren automatisk etter vellykket registrering
-    const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
-
-    if (loginError) {
-      setError(loginError.message)
-      return
-    }
-
-    // 🚀 Sender brukeren videre til dashboard eller opprinnelig side
-    const redirectedFrom = searchParams.get('redirectedFrom') || '/dashboard'
-    router.push(redirectedFrom)
   }
 
-  // 🧾 Skjemaet og visningen i brukergrensesnittet
   return (
-    <div className="w-full max-w-md bg-white p-8 rounded-xl shadow">
-      <h1 className="text-2xl font-bold text-center text-indigo-600 mb-6">
-        Opprett konto
-      </h1>
+    <Card className="w-full max-w-md border shadow-xl">
+      <CardHeader>
+        <CardTitle className="text-center text-indigo-600 text-2xl font-bold">
+          Opprett konto
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        {error && (
+          <div className="text-red-600 text-sm mb-4 text-center">{error}</div>
+        )}
 
-      {/* 🔴 Viser feilmeldinger hvis noe går galt */}
-      {error && (
-        <div className="text-red-600 text-sm mb-4 text-center">{error}</div>
-      )}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <Label htmlFor="email">E-post</Label>
+            <Input
+              id="email"
+              type="email"
+              {...register('email', { required: true })}
+              disabled={loading}
+            />
+          </div>
+          <div>
+            <Label htmlFor="password">Passord</Label>
+            <Input
+              id="password"
+              type="password"
+              {...register('password', { required: true })}
+              disabled={loading}
+            />
+          </div>
 
-      {/* 📬 Skjema for e-post og passord */}
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium">E-post</label>
-          <input
-            type="email"
-            {...register('email', { required: true })}
-            className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium">Passord</label>
-          <input
-            type="password"
-            {...register('password', { required: true })}
-            className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition"
-        >
-          Registrer deg
-        </button>
-      </form>
-    </div>
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? (
+              <div className="flex items-center justify-center gap-2">
+                <Loader2 className="animate-spin h-4 w-4" />
+                Laster inn...
+              </div>
+            ) : (
+              'Registrer deg'
+            )}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
   )
 }

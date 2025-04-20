@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { supabase } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 type FormData = {
   email: string
@@ -14,16 +14,17 @@ export default function LoginPage() {
   const { register, handleSubmit } = useForm<FormData>()
   const [error, setError] = useState('')
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const onSubmit = async (data: FormData) => {
     const { email, password } = data
-
     const { error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
       setError(error.message)
     } else {
-      router.push('/dashboard') // 🔁 Gå til dashboard ved suksess
+      const redirectedFrom = searchParams.get('redirectedFrom') || '/dashboard'
+      router.push(redirectedFrom)
     }
   }
 

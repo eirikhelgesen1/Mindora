@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase/client"
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from '@vercel/analytics/next';
 import Navbar from "@/components/navbar-with-popover"
 import '@/styles/mindora-colors.css';
 import InterestForm from "@/components/InterestForm"

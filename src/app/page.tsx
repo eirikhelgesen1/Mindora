@@ -8,6 +8,21 @@ import Navbar from "@/components/navbar-with-popover"
 import '@/styles/mindora-colors.css';
 import InterestForm from "@/components/InterestForm"
 
+export const metadata = {
+  title: "Mindora – Bygg vaner og fokuser med innsikt",
+  description: "Mindora hjelper deg å utvikle gode vaner, reflektere og fokusere – med hjelp av AI og guidede verktøy.",
+  keywords: ["Mindora", "vaner", "fokus", "refleksjon", "AI", "personlig utvikling"],
+  metadataBase: new URL('https://mindora.no'),
+  openGraph: {
+    title: "Mindora",
+    description: "Bygg vaner som varer og fokuser med AI og innsikt.",
+    url: "https://mindora.no",
+    siteName: "Mindora",
+    locale: "no_NO",
+    type: "website",
+  },
+}
+
 export default function Home() {
   const [, setUser] = useState<null | object>(null)
 
@@ -28,7 +43,7 @@ export default function Home() {
         <p className="text-lg text-gray-600 max-w-xl mx-auto mb-6">
           Bygg vaner som varer. Reflekter med innsikt. Fokuser uten stress.
         </p>
-        <Link href="/auth/signup">
+        <Link href="#interest">
           <button className="bg-green-900 text-white px-6 py-3 rounded-xl text-lg hover:bg-[var(--color-accent)] transition-colors duration-200">
             Meld interesse
           </button>

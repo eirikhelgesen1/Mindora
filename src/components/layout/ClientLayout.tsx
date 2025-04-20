@@ -69,6 +69,10 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+              gtag('event', 'test_event', {
+                event_category: 'Test',
+                event_label: 'Dashboard Page Load',
+                })
             `}
           </Script>
         </>

@@ -1,5 +1,3 @@
-'use client'
-
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import Script from "next/script"
@@ -16,10 +14,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
-export const metadata: Metadata = {
-  title: "Mindora – Din digitale utviklingspartner",
-  description: "Bygg gode vaner, reflekter med AI, og hold fokus – alt på ett sted.",
-}
+// ❗️ Flytt metadata til egen serverkomponent f.eks. layout.metadata.ts om du bruker "use client"
+// export const metadata: Metadata = { ... }
 
 export default function RootLayout({
   children,

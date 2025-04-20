@@ -15,13 +15,11 @@ export default function InterestForm() {
     setError("")
 
     try {
-      // ✅ Hent reCAPTCHA-token
       const token = await window.grecaptcha.execute(
         process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!,
         { action: "interest" }
       )
 
-      // ✅ Send token til backend for verifisering
       const res = await fetch("/api/verify-recaptcha", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -35,16 +33,25 @@ export default function InterestForm() {
         return
       }
 
-      // ✅ Send navn og e-post til Supabase
-      const { error } = await insertInterest({ email, name })
+      const { error } = await insertInterest(email, name, result)
       if (error) {
-        setError("Noe gikk galt, prøv igjen.")
+        if (error.code === "23505") {
+          setError("Denne e-posten er allerede registrert.")
+
+          if (typeof window !== "undefined" && typeof window.gtag === "function") {
+            window.gtag("event", "duplicate_interest", {
+              event_category: "Interest Form",
+              event_label: `Email: ${email} | Name: ${name}`,
+            })
+          }
+        } else {
+          setError("Noe gikk galt, prøv igjen.")
+        }
       } else {
         setSubmitted(true)
         setEmail("")
         setName("")
 
-        // 📈 Send GA4 event
         if (typeof window !== "undefined" && typeof window.gtag === "function") {
           window.gtag("event", "submitted_interest", {
             event_category: "Interest Form",
@@ -60,7 +67,6 @@ export default function InterestForm() {
 
   return (
     <section className="bg-orange-50 rounded-3xl shadow-md max-w-6xl mx-auto my-10 px-6 py-20 text-center" id="intrest">
-      {/* 🔐 Google reCAPTCHA v3 script */}
       <Script
         src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
         strategy="afterInteractive"
@@ -103,7 +109,6 @@ export default function InterestForm() {
   )
 }
 
-// Declare grecaptcha on window for TypeScript
 export {}
 
 declare global {

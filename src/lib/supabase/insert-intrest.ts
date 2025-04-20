@@ -1,8 +1,10 @@
 import { supabase } from "./client"
 
-export async function insertInterest({ email, name }: { email: string; name: string }) {
-  const { data, error } = await supabase
-    .from("interesse")
-    .insert([{ email, name }])
-  return { data, error }
+export async function insertInterest(email: string, name: string, result: { score: number }) {
+  return await supabase.from("interesse").insert([
+    {
+      email,
+      name,
+    },
+  ]).select().single()
 }

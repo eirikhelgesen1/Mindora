@@ -8,7 +8,7 @@ import Navbar from "@/components/navbar-with-popover"
 import '@/styles/mindora-colors.css';
 
 export default function Home() {
-  const [user, setUser] = useState<null | object>(null)
+  const [, setUser] = useState<null | object>(null)
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data: { user } }) => {

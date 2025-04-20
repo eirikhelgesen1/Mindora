@@ -1,15 +1,13 @@
 'use client'
 
-// 📦 react-hook-form brukes for enkel håndtering av inputfeltene og validering
+// 📦 react-hook-form brukes for håndtering av inputfelter og validering
 import { useForm } from 'react-hook-form'
-// 🎯 useState for å håndtere eventuelle feilmeldinger
+// 🎯 useState brukes for å håndtere feilmeldinger
 import { useState } from 'react'
-// 🔐 Supabase-klienten for å opprette og logge inn brukere
+// 🔐 Supabase-klienten for autentisering
 import { supabase } from '@/lib/supabase/client'
 // 🧭 Router og URL-parametere fra Next.js
 import { useRouter, useSearchParams } from 'next/navigation'
-// 🔐 Hook som henter reCAPTCHA v3-token fra Google
-import { useRecaptchaToken } from '@/hooks/useRecaptchaToken'
 
 // 🎯 Definerer hvilke felter skjemaet inneholder og hvilken type de har
 type FormData = {
@@ -18,24 +16,27 @@ type FormData = {
 }
 
 export default function SignupForm() {
-  // Initialiserer react-hook-form for email og passord
+  // 🎯 Initialiserer react-hook-form for å håndtere skjemaet
   const { register, handleSubmit } = useForm<FormData>()
-  const [error, setError] = useState('') // Feilmelding vises i UI hvis noe går galt
-  const router = useRouter() // Brukes til å navigere etter vellykket registrering
-  const searchParams = useSearchParams() // For å finne eventuell redirect etter innlogging
+  const [error, setError] = useState('') // Brukes til å vise feilmeldinger i UI
+  const router = useRouter() // Navigasjon etter vellykket innlogging
+  const searchParams = useSearchParams() // Fanger eventuell redirect
 
-  // 🔒 Henter et reCAPTCHA-token fra Google v3 for "signup"-action
-  const recaptchaToken = useRecaptchaToken('signup')
-
-  // 🔁 Kalles når brukeren sender inn skjemaet
+  // 🔁 Kjøres når brukeren sender inn skjemaet
   const onSubmit = async (data: FormData) => {
-    // ✅ Sjekker at token er mottatt før man går videre
+    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!
+
+    // 🔐 Genererer nytt reCAPTCHA-token når skjemaet sendes inn
+    const recaptchaToken = await window.grecaptcha.execute(siteKey, {
+      action: 'signup',
+    })
+
     if (!recaptchaToken) {
       alert('Klarte ikke hente reCAPTCHA-token.')
       return
     }
 
-    // 🔍 Sender token til backend for server-side verifisering mot Google
+    // 🔍 Sender token til backend for validering mot Google
     const verify = await fetch('/api/verify-recaptcha', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -44,24 +45,23 @@ export default function SignupForm() {
 
     const verifyResult = await verify.json()
 
-    // ❌ Hvis verifiseringen feiler, stopper prosessen
-    if (!verify.ok || !verifyResult.success) {
+    // ❌ Stopper registrering hvis token ikke er gyldig eller scoren er for lav
+    if (!verify.ok || !verifyResult.success || verifyResult.score < 0.5) {
       alert('Vi kunne ikke verifisere at du er et menneske. Prøv igjen.')
       return
     }
 
-    // 📩 Brukeren har passert reCAPTCHA – nå registreres de i Supabase
+    // 📩 Brukeren er verifisert – fortsett med Supabase-registrering
     const { email, password } = data
-
     const { error: signupError } = await supabase.auth.signUp({ email, password })
 
-    // ❌ Hvis det oppstår feil ved registrering, vis feilmelding
+    // ❌ Viser feil hvis registrering feiler
     if (signupError) {
       setError(signupError.message)
       return
     }
 
-    // 🔑 Automatisk innlogging etter vellykket registrering
+    // 🔑 Logger inn brukeren automatisk etter vellykket registrering
     const { error: loginError } = await supabase.auth.signInWithPassword({ email, password })
 
     if (loginError) {
@@ -69,24 +69,24 @@ export default function SignupForm() {
       return
     }
 
-    // 🚀 Etter innlogging: send brukeren til dashboard eller redirect-URL
+    // 🚀 Sender brukeren videre til dashboard eller opprinnelig side
     const redirectedFrom = searchParams.get('redirectedFrom') || '/dashboard'
     router.push(redirectedFrom)
   }
 
-  // 🧾 JSX for skjemaet og visning
+  // 🧾 Skjemaet og visningen i brukergrensesnittet
   return (
     <div className="w-full max-w-md bg-white p-8 rounded-xl shadow">
       <h1 className="text-2xl font-bold text-center text-indigo-600 mb-6">
         Opprett konto
       </h1>
 
-      {/* Viser feilmeldinger hvis noe går galt */}
+      {/* 🔴 Viser feilmeldinger hvis noe går galt */}
       {error && (
         <div className="text-red-600 text-sm mb-4 text-center">{error}</div>
       )}
 
-      {/* Bruk react-hook-form sin submit-handler */}
+      {/* 📬 Skjema for e-post og passord */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label className="block text-sm font-medium">E-post</label>

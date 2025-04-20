@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Script from "next/script"
 import { insertInterest } from "@/lib/supabase/insert-intrest"
 
 export default function InterestForm() {
@@ -9,30 +10,61 @@ export default function InterestForm() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState("")
 
+  // reCAPTCHA lastes inn via Script og kjøres når skjemaet sendes inn
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
-    const { error } = await insertInterest(email)
-    if (error) {
-      setError("Noe gikk galt, prøv igjen.")
-    } else {
-      setSubmitted(true)
-      setEmail("")
+
+    try {
+      // ✅ Hent reCAPTCHA-token
+      const token = await (window as any).grecaptcha.execute(
+        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!,
+        { action: "interest" }
+      )
+
+      // ✅ Send token til backend for verifisering
+      const res = await fetch("/api/verify-recaptcha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      })
+
+      const result = await res.json()
+
+      if (!result.success || result.score < 0.5) {
+        setError("Vi kunne ikke bekrefte at du er et menneske.")
+        return
+      }
+
+      // ✅ Send e-post til Supabase
+      const { error } = await insertInterest(email)
+      if (error) {
+        setError("Noe gikk galt, prøv igjen.")
+      } else {
+        setSubmitted(true)
+        setEmail("")
+        setName("")
+      }
+    } catch (err) {
+      setError("Uventet feil oppstod.")
     }
   }
 
   return (
     <section className="bg-orange-50 rounded-3xl shadow-md max-w-6xl mx-auto my-10 px-6 py-20 text-center" id="intrest">
+      {/* 🔐 Google reCAPTCHA v3 script */}
+      <Script
+        src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+        strategy="afterInteractive"
+      />
+
       <h2 className="text-2xl font-semibold mb-4">Få tidlig tilgang</h2>
       <p className="text-gray-600 mb-6">Legg igjen e-posten din og bli blant de første som får prøve Mindora.</p>
 
       {submitted ? (
         <p className="text-green-700 font-medium">Takk! Vi kontakter deg snart 🌱</p>
       ) : (
-        <form
-          onSubmit={handleSubmit}
-          className="max-w-md mx-auto flex flex-col gap-4 items-center p-1"
-        >
+        <form onSubmit={handleSubmit} className="max-w-md mx-auto flex flex-col gap-4 items-center p-1">
           <input
             type="email"
             required
@@ -56,7 +88,6 @@ export default function InterestForm() {
             Meld interesse
           </button>
         </form>
-
       )}
 
       {error && <p className="text-red-600 mt-4">{error}</p>}

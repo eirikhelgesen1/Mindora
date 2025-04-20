@@ -6,7 +6,7 @@ export default function NavbarPublic() {
   return (
     <nav className="w-full bg-white border-b shadow-sm sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-        <Link href="/" className="text-xl font-bold text-indigo-600">
+        <Link href="/" className="text-xl font-bold text-#f5f2ea">
           Mindora
         </Link>
         <div className="space-x-4">

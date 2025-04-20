@@ -12,10 +12,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Mindora – Din digitale utviklingspartner",
   description: "Bygg gode vaner, reflekter med AI, og hold fokus – alt på ett sted.",
 }
+
 
 export default function RootLayout({
   children,

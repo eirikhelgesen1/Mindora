@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/react"
 import Navbar from "@/components/navbar-with-popover"
 import '@/styles/mindora-colors.css';
 import InterestForm from "@/components/InterestForm"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export default function Home() {
   const [, setUser] = useState<null | object>(null)
@@ -54,6 +55,7 @@ export default function Home() {
           </div>
         </div>
         <Analytics />
+        <SpeedInsights />
       </section>
 
       {/* For hvem */}

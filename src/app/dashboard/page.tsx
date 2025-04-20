@@ -3,15 +3,11 @@
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
 import { useRouter } from "next/navigation"
-
-type UserInfo = {
-  email: string
-  [key: string]: any
-}
+import type { User } from "@supabase/supabase-js"
 
 export default function DashboardPage() {
   const router = useRouter()
-  const [user, setUser] = useState<UserInfo | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -20,7 +16,7 @@ export default function DashboardPage() {
       if (!user) {
         router.push("/auth/login")
       } else {
-        setUser(user as UserInfo)
+        setUser(user)
         setLoading(false)
       }
     }

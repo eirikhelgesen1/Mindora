@@ -4,14 +4,10 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import Link from "next/link"
-
-type UserInfo = {
-  email: string
-  [key: string]: any
-}
+import type { User } from "@supabase/supabase-js"
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<UserInfo | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
@@ -21,7 +17,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       if (!user) {
         router.push("/auth/login")
       } else {
-        setUser(user as UserInfo)
+        setUser(user)
         setLoading(false)
       }
     }
@@ -52,7 +48,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <li><Link href="/dashboard/reflection" className="hover:text-indigo-600">Refleksjon</Link></li>
           <li><Link href="/dashboard/focus" className="hover:text-indigo-600">Fokusmodus</Link></li>
         </ul>
-        <button onClick={handleLogout} className="text-sm text-gray-600 hover:text-red-600">Logg ut</button>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-gray-500 hidden md:block">Innlogget som {user?.email}</span>
+          <button onClick={handleLogout} className="text-sm text-gray-600 hover:text-red-600">Logg ut</button>
+        </div>
       </nav>
 
       <main className="max-w-6xl mx-auto py-10 px-4">

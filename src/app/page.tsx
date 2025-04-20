@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase/client"
 import { Analytics } from "@vercel/analytics/react"
 import Navbar from "@/components/navbar-with-popover"
+import '@/styles/mindora-colors.css';
 
 export default function Home() {
   const [user, setUser] = useState<null | object>(null)
@@ -16,7 +17,7 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="bg-neutral-50 text-gray-900 min-h-screen">
+    <main className="bg-[var(--color-background)] text-gray-900 min-h-screen">
       {/* Navbar */}
       <Navbar />
 
@@ -34,7 +35,7 @@ export default function Home() {
       </section>
 
       {/* Funksjoner */}
-      <section className="py-20 bg-white" id="features">
+      <section className="py-20 bg-[var(--color-background)]" id="features">
         <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-12 text-center">
           <div>
             <h3 className="text-xl font-semibold mb-2">🧱 Vaner og mål</h3>
@@ -53,7 +54,7 @@ export default function Home() {
       </section>
 
       {/* For hvem */}
-      <section className="py-20 bg-orange-50 text-center px-6" id="target">
+      <section className="py-20 bg-[var(--color-background)] text-center px-6" id="target">
         <h2 className="text-3xl font-bold mb-4">Hvem er Mindora for?</h2>
         <p className="text-gray-700 max-w-2xl mx-auto">
           Enten du er student, gründer, leder eller bare ønsker mer struktur i hverdagen, gir Mindora deg verktøyene for å utvikle deg selv – ett skritt av gangen. Du får støtte i form av innsikt, visualisering, AI og egen refleksjon.
@@ -61,7 +62,7 @@ export default function Home() {
       </section>
 
       {/* Call to action */}
-      <section className="py-20 bg-white text-center">
+      <section className="py-20 bg-[var(--color-background)] text-center">
         <h2 className="text-2xl font-semibold mb-4">Klar for å starte din utviklingsreise?</h2>
         <p className="text-gray-600 mb-6">Registrer deg gratis og få tilgang til dine egne mål, refleksjoner og fokusverktøy.</p>
         <Link href="/auth/signup">
@@ -72,7 +73,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-10 text-center text-sm text-gray-500">
+      <footer className="py-10 text-center text-sm text-white bg-[var(--color-primary)]">
         © 2025 Mindora. Alle rettigheter reservert.
         <p>
           <Link href="/privacy" className="underline mr-4">Personvern</Link>

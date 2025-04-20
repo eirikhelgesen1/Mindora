@@ -1,0 +1,16 @@
+
+:root {
+  --color-background: #FFF7ED;
+  --color-primary: #14532D;
+  --color-accent: #EA580C;
+  --color-secondary-bg: #F0FDF4;
+  --color-text-secondary: #737373;
+  --color-accent-alt: stone-500;
+
+  /* Common usage */
+  --color-text: var(--color-primary);
+  --color-button-bg: var(--color-primary);
+  --color-button-text: #ffffff;
+  --color-button-hover: var(--color-accent);
+  --color-section-bg: var(--color-secondary-bg);
+}

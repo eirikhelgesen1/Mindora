@@ -10,13 +10,13 @@ export default function InterestForm() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState("")
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError("")
 
     try {
       // ✅ Hent reCAPTCHA-token
-      const token = await (window as any).grecaptcha.execute(
+      const token = await window.grecaptcha.execute(
         process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!,
         { action: "interest" }
       )
@@ -28,7 +28,7 @@ export default function InterestForm() {
         body: JSON.stringify({ token }),
       })
 
-      const result = await res.json()
+      const result: { success: boolean; score: number } = await res.json()
 
       if (!result.success || result.score < 0.5) {
         setError("Vi kunne ikke bekrefte at du er et menneske.")
@@ -45,14 +45,15 @@ export default function InterestForm() {
         setName("")
 
         // 📈 Send GA4 event
-        if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
-          (window as any).gtag("event", "submitted_interest", {
+        if (typeof window !== "undefined" && typeof window.gtag === "function") {
+          window.gtag("event", "submitted_interest", {
             event_category: "Interest Form",
             event_label: `Email: ${email} | Name: ${name}`,
           })
         }
       }
-    } catch (err) {
+    } catch (error: unknown) {
+      console.error("Recaptcha error:", error)
       setError("Uventet feil oppstod.")
     }
   }
@@ -100,4 +101,17 @@ export default function InterestForm() {
       {error && <p className="text-red-600 mt-4">{error}</p>}
     </section>
   )
+}
+
+// Declare grecaptcha on window for TypeScript
+export {}
+
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready: (cb: () => void) => void
+      execute: (siteKey: string, options: { action: string }) => Promise<string>
+    }
+    gtag?: (...args: any[]) => void
+  }
 }

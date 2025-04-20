@@ -1,0 +1,22 @@
+
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <style>
+    .text { font-family: 'Helvetica Neue', sans-serif; font-size: 24px; fill: #355E3B; }
+  </style>
+  
+  <!-- Spiral -->
+  <path d="M100,100 
+           m-40,0 
+           a40,40 0 1,1 40,40 
+           a20,20 0 1,0 -20,-20" 
+        stroke="#355E3B" stroke-width="5" fill="none"/>
+
+  <!-- Leaf -->
+  <path d="M140,60 
+           C150,50 160,70 150,80 
+           C145,85 135,75 140,60Z" 
+        fill="#C86B4C"/>
+
+  <!-- Text -->
+  <text x="50" y="170" class="text">Mindora</text>
+</svg>

@@ -7,14 +7,19 @@ export default function Home() {
       {/* Navbar */}
       <nav className="flex items-center justify-between px-6 py-4 shadow-sm bg-white sticky top-0 z-50">
         <div className="text-2xl font-bold text-indigo-600">Mindora</div>
-        <ul className="hidden md:flex gap-6 text-sm font-medium">
-          <li><a href="#features" className="hover:text-indigo-600">Funksjoner</a></li>
-          <li><a href="#target" className="hover:text-indigo-600">For hvem</a></li>
-          <li><a href="#cta" className="hover:text-indigo-600">Kom i gang</a></li>
-        </ul>
-        <Link href="/auth/signup">
-          <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition text-sm">Registrer deg</button>
-        </Link>
+          <ul className="hidden md:flex gap-6 text-sm font-medium">
+            <li><a href="#features" className="hover:text-indigo-600">Funksjoner</a></li>
+            <li><a href="#target" className="hover:text-indigo-600">For hvem</a></li>
+            <li><a href="#cta" className="hover:text-indigo-600">Kom i gang</a></li>
+          </ul>
+        <div className="flex items-center gap-4">
+          <a href="/auth/login" className="text-sm text-gray-600 hover:text-indigo-600">Logg inn</a>
+          <a href="/auth/signup">
+            <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition text-sm">
+              Registrer deg
+            </button>
+          </a>
+        </div>
       </nav>
 
       {/* Hero */}

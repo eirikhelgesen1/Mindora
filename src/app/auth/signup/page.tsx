@@ -2,6 +2,7 @@
 
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
+import { supabase } from "@/lib/supabase"
 
 type FormData = {
   email: string
@@ -13,9 +14,19 @@ export default function SignupPage() {
   const [submitted, setSubmitted] = useState(false)
 
   const onSubmit = async (data: FormData) => {
-    console.log('Registrerer bruker:', data)
+    const { email, password } = data
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    })
+  
+    if (error) {
+      console.error("Registrering feilet:", error.message)
+      alert("Det oppstod en feil: " + error.message)
+      return
+    }
+  
     setSubmitted(true)
-    // Her kommer Supabase-auth senere
   }
 
   return (

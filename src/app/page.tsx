@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase/client"
 import { Analytics } from "@vercel/analytics/react"
+import Navbar from "@/components/navbar-with-popover"
 
 export default function Home() {
   const [user, setUser] = useState<null | object>(null)
@@ -17,34 +18,7 @@ export default function Home() {
   return (
     <main className="bg-neutral-50 text-gray-900 min-h-screen">
       {/* Navbar */}
-      <nav className="flex items-center justify-between px-6 py-4 shadow-sm bg-white sticky top-0 z-50">
-      <div className="flex items-center gap-2 text-2xl font-bold text-green-900">
-        <img src="public/mindora-logo-no-text.svg" alt="Mindora logo" className="h-8 w-8" />
-        Mindora
-      </div>
-
-        <ul className="hidden md:flex gap-6 text-sm font-medium">
-          <li><a href="#features" className="hover:text-indigo-600">Funksjoner</a></li>
-          <li><a href="#target" className="hover:text-indigo-600">For hvem</a></li>
-          <li><a href="#cta" className="hover:text-indigo-600">Kom i gang</a></li>
-        </ul>
-        {user ? (
-          <div className="flex items-center gap-4">
-            <Link href="/dashboard" className="text-sm text-gray-600 hover:text-indigo-600">
-              Gå til dashboard
-            </Link>
-          </div>
-        ) : (
-          <div className="flex items-center gap-4">
-            <Link href="/auth/login" className="text-sm text-gray-600 hover:text-green-900">Logg inn</Link>
-            <Link href="/auth/signup">
-              <button className="bg-green-900 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition text-sm">
-                Registrer deg
-              </button>
-            </Link>
-          </div>
-        )}
-      </nav>
+      <Navbar />
 
       {/* Hero */}
       <section className="py-24 text-center px-4 bg-orange-50" id="cta">

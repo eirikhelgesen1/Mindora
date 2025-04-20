@@ -23,12 +23,12 @@ export default function Home() {
       <Navbar />
 
       {/* Hero */}
-      <section className="py-24 text-center px-4 bg-orange-50" id="cta">
+      <section className="py-20 text-center px-4 bg-orange-50" id="cta" style={{ paddingBottom: 20 }}>
         <h1 className="text-5xl font-bold mb-4 text-green-900">Velkommen til Mindora</h1>
         <p className="text-lg text-gray-600 max-w-xl mx-auto mb-6">
           Bygg vaner som varer. Reflekter med innsikt. Fokuser uten stress.
         </p>
-        <Link href="#interest">
+        <Link href="#intrest">
           <button className="bg-green-900 text-white px-6 py-3 rounded-xl text-lg hover:bg-[var(--color-accent)] transition-colors duration-200">
             Meld interesse
           </button>
@@ -36,7 +36,8 @@ export default function Home() {
       </section>
 
       {/* Funksjoner */}
-      <section className="py-20 bg-[var(--color-background)]" id="features">
+      <section className="py-15 bg-[var(--color-background)]" id="features">
+        <h2 className="text-3xl font-bold text-center mb-8">Funksjoner</h2>
         <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-12 text-center">
           <div>
             <h3 className="text-xl font-semibold mb-2">🧱 Vaner og mål</h3>

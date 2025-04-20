@@ -1,9 +1,11 @@
 // src/app/terms/page.tsx
 import LegalLayout from '@/components/layout/LegalLayout'
+import Navbar from "@/components/navbar-with-popover"
+import '@/styles/mindora-colors.css';
 
 export default function TermsPage() {
   return (
-    <LegalLayout>
+    <><Navbar /><LegalLayout>
       <h1>Brukervilkår</h1>
       <p>Ved å bruke Mindora godtar du følgende vilkår for bruk av tjenesten.</p>
 
@@ -21,6 +23,6 @@ export default function TermsPage() {
 
       <h2>5. Kontakt</h2>
       <p>Spørsmål kan rettes til kontakt@mindora.no</p>
-    </LegalLayout>
+    </LegalLayout></>
   )
 }

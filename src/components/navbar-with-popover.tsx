@@ -33,7 +33,7 @@ export default function Navbar() {
               src="/mindora-logo-no-text.svg"
               className="h-10 w-10 object-contain"
             />
-            <span className="text-xl font-bold text-indigo-600">Mindora</span>
+            <span className="text-xl font-bold text-[var(--color-primary)]">Mindora</span>
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -47,13 +47,13 @@ export default function Navbar() {
           </button>
         </div>
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-          <a href="#features" className="text-sm font-semibold text-gray-900">
+          <a href="#features" className="text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-200">
             Funksjoner
           </a>
-          <a href="#target" className="text-sm font-semibold text-gray-900">
+          <a href="#target" className="text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-200">
             For hvem
           </a>
-          <a href="#cta" className="text-sm font-semibold text-gray-900">
+          <a href="#cta" className="text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-accent)] transition-colors duration-200">
             Kom i gang
           </a>
         </PopoverGroup>
@@ -64,9 +64,9 @@ export default function Navbar() {
             </Link>
           ) : (
             <div className="flex items-center gap-4">
-              <Link href="/auth/login" className="text-sm text-gray-600 hover:text-green-900">Logg inn</Link>
+              <Link href="/auth/login" className="text-sm text-[var(--color-primary)] hover:text-[var(--color-accent)]">Logg inn</Link>
               <Link href="/auth/signup">
-                <button className="bg-green-900 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition text-sm">
+                <button className="bg-green-900 text-white px-4 py-2 rounded-md hover:bg-[var(--color-accent)] transition text-sm">
                   Registrer deg
                 </button>
               </Link>

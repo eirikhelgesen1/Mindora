@@ -1,9 +1,11 @@
 // src/app/privacy/page.tsx
 import LegalLayout from '@/components/layout/LegalLayout'
+import Navbar from "@/components/navbar-with-popover"
+import '@/styles/mindora-colors.css';
 
 export default function PrivacyPage() {
   return (
-    <LegalLayout>
+    <><Navbar /><LegalLayout>
       <h1>Personvernerklæring</h1>
       <p>Denne personvernerklæringen forklarer hvordan vi samler inn, bruker og beskytter dine personopplysninger gjennom bruk av Mindora.</p>
 
@@ -32,6 +34,6 @@ export default function PrivacyPage() {
         Behandlingsansvarlig: Eirik Helgesen<br />
         E-post: kontakt@mindora.no
       </p>
-    </LegalLayout>
+    </LegalLayout></>
   )
 }

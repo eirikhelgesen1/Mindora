@@ -28,7 +28,7 @@ export default function Home() {
           Bygg vaner som varer. Reflekter med innsikt. Fokuser uten stress.
         </p>
         <Link href="/auth/signup">
-          <button className="bg-green-900 text-white px-6 py-3 rounded-xl text-lg hover:bg-indigo-700 transition">
+          <button className="bg-green-900 text-white px-6 py-3 rounded-xl text-lg hover:bg-[var(--color-accent)] transition-colors duration-200">
             Kom i gang gratis
           </button>
         </Link>
@@ -66,14 +66,14 @@ export default function Home() {
         <h2 className="text-2xl font-semibold mb-4">Klar for å starte din utviklingsreise?</h2>
         <p className="text-gray-600 mb-6">Registrer deg gratis og få tilgang til dine egne mål, refleksjoner og fokusverktøy.</p>
         <Link href="/auth/signup">
-          <button className="bg-indigo-600 text-white px-6 py-3 rounded-xl text-lg hover:bg-indigo-700 transition">
+          <button className="bg-[var(--color-primary)] text-white px-6 py-3 rounded-xl text-lg hover:bg-[var(--color-accent)] transition">
             Opprett konto
           </button>
         </Link>
       </section>
 
       {/* Footer */}
-      <footer className="py-10 text-center text-sm text-white bg-[var(--color-primary)]">
+      <footer className="py-10 text-center text-sm text-[var(--coloar-primary)] bg-white">
         © 2025 Mindora. Alle rettigheter reservert.
         <p>
           <Link href="/privacy" className="underline mr-4">Personvern</Link>

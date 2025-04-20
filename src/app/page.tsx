@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { Analytics } from "@vercel/analytics/react"
 
 export default function Home() {
   return (
@@ -45,6 +46,7 @@ export default function Home() {
             <p className="text-sm text-gray-600">Pomodoro-timer med AI-basert belønningssystem og statistikk.</p>
           </div>
         </div>
+        <Analytics />
       </section>
 
       {/* For hvem */}

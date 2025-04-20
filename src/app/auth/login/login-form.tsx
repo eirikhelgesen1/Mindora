@@ -1,9 +1,9 @@
 'use client'
 
-import { useSearchParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { supabase } from '@/lib/supabase/client'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 type FormData = {
   email: string
@@ -30,7 +30,9 @@ export default function LoginForm() {
 
   return (
     <div className="w-full max-w-md bg-white p-8 rounded-xl shadow">
-      <h1 className="text-2xl font-bold text-center text-indigo-600 mb-6">Logg inn</h1>
+      <h1 className="text-2xl font-bold text-center text-indigo-600 mb-6">
+        Logg inn
+      </h1>
 
       {error && (
         <div className="text-red-600 text-sm mb-4 text-center">{error}</div>
@@ -41,7 +43,7 @@ export default function LoginForm() {
           <label className="block text-sm font-medium">E-post</label>
           <input
             type="email"
-            {...register("email", { required: true })}
+            {...register('email', { required: true })}
             className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
           />
         </div>
@@ -49,7 +51,7 @@ export default function LoginForm() {
           <label className="block text-sm font-medium">Passord</label>
           <input
             type="password"
-            {...register("password", { required: true })}
+            {...register('password', { required: true })}
             className="mt-1 w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
           />
         </div>

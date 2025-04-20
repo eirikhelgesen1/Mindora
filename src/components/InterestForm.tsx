@@ -33,7 +33,7 @@ export default function InterestForm() {
         return
       }
 
-      const { error } = await insertInterest(email, name, result)
+      const { error } = await insertInterest(email, name, result.score)
       if (error) {
         if (error.code === "23505") {
           setError("Denne e-posten er allerede registrert.")

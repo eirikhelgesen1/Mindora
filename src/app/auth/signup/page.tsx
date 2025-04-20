@@ -2,7 +2,7 @@
 
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase/client'
 import ReCAPTCHA from 'react-google-recaptcha'
 
 type FormData = {

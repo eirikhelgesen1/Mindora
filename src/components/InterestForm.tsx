@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Script from "next/script"
 import { insertInterest } from "@/lib/supabase/insert-intrest"
 
@@ -10,7 +10,6 @@ export default function InterestForm() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState("")
 
-  // reCAPTCHA lastes inn via Script og kjøres når skjemaet sendes inn
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
@@ -44,6 +43,14 @@ export default function InterestForm() {
         setSubmitted(true)
         setEmail("")
         setName("")
+
+        // 📈 Send GA4 event
+        if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
+          (window as any).gtag("event", "submitted_interest", {
+            event_category: "Interest Form",
+            event_label: `Email: ${email} | Name: ${name}`,
+          })
+        }
       }
     } catch (err) {
       setError("Uventet feil oppstod.")

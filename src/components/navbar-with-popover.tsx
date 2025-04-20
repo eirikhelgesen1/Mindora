@@ -6,13 +6,7 @@ import { supabase } from '@/lib/supabase/client'
 import {
   Dialog,
   DialogPanel,
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Popover,
-  PopoverButton,
   PopoverGroup,
-  PopoverPanel,
 } from '@headlessui/react'
 import {
   ArrowPathIcon,

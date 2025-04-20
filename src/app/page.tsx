@@ -18,12 +18,12 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="bg-[var(--color-background)] text-gray-900 min-h-screen">
+    <main className="bg-white] text-gray-900 min-h-screen">
       {/* Navbar */}
       <Navbar />
 
       {/* Hero */}
-      <section className="py-20 text-center px-4 bg-orange-50" id="cta" style={{ paddingBottom: 20 }}>
+      <section className="bg-orange-50 rounded-3xl shadow-md max-w-6xl mx-auto my-10 px-6 py-20 text-center" id="cta">
         <h1 className="text-5xl font-bold mb-4 text-green-900">Velkommen til Mindora</h1>
         <p className="text-lg text-gray-600 max-w-xl mx-auto mb-6">
           Bygg vaner som varer. Reflekter med innsikt. Fokuser uten stress.
@@ -35,8 +35,9 @@ export default function Home() {
         </Link>
       </section>
 
+
       {/* Funksjoner */}
-      <section className="py-15 bg-[var(--color-background)]" id="features">
+      <section className="bg-orange-50 rounded-3xl shadow-md max-w-6xl mx-auto my-10 px-6 py-20 text-center" id="features">
         <h2 className="text-3xl font-bold text-center mb-8">Funksjoner</h2>
         <div className="max-w-5xl mx-auto px-6 grid md:grid-cols-3 gap-12 text-center">
           <div>
@@ -56,18 +57,18 @@ export default function Home() {
       </section>
 
       {/* For hvem */}
-      <section className="py-20 bg-[var(--color-background)] text-center px-6" id="target">
+      <section className="bg-orange-50 rounded-3xl shadow-md max-w-6xl mx-auto my-10 px-6 py-20 text-center" id="target">
         <h2 className="text-3xl font-bold mb-4">Hvem er Mindora for?</h2>
         <p className="text-gray-700 max-w-2xl mx-auto">
           Enten du er student, gründer, leder eller bare ønsker mer struktur i hverdagen, gir Mindora deg verktøyene for å utvikle deg selv – ett skritt av gangen. Du får støtte i form av innsikt, visualisering, AI og egen refleksjon.
         </p>
       </section>
 
-     {/* Interesse-skjema */}
+      {/* Interesse-skjema */}
       <InterestForm />
 
       {/* Footer */}
-      <footer className="py-10 text-center text-sm text-[var(--coloar-primary)] bg-white">
+      <footer className="py-10 text-center text-sm text-[var(--coloar-primary)] bg-white rounded-lg">
         © 2025 Mindora. Alle rettigheter reservert.
         <p>
           <Link href="/privacy" className="underline mr-4">Personvern</Link>

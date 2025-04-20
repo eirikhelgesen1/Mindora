@@ -8,21 +8,6 @@ import Navbar from "@/components/navbar-with-popover"
 import '@/styles/mindora-colors.css';
 import InterestForm from "@/components/InterestForm"
 
-export const metadata = {
-  title: "Mindora – Bygg vaner og fokuser med innsikt",
-  description: "Mindora hjelper deg å utvikle gode vaner, reflektere og fokusere – med hjelp av AI og guidede verktøy.",
-  keywords: ["Mindora", "vaner", "fokus", "refleksjon", "AI", "personlig utvikling"],
-  metadataBase: new URL('https://mindora.no'),
-  openGraph: {
-    title: "Mindora",
-    description: "Bygg vaner som varer og fokuser med AI og innsikt.",
-    url: "https://mindora.no",
-    siteName: "Mindora",
-    locale: "no_NO",
-    type: "website",
-  },
-}
-
 export default function Home() {
   const [, setUser] = useState<null | object>(null)
 

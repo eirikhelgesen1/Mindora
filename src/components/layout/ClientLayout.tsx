@@ -91,51 +91,51 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       )}
 
      {/* Preferences Modal */}
-{showPreferences && (
-  <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-    <div className="bg-white p-6 rounded-lg shadow-lg max-w-md border border-gray-300 pointer-events-auto">
-      <h2 className="text-lg font-bold mb-4">Tilpass informasjonskapsler</h2>
-      <div className="space-y-2 mb-4">
-        <label className="flex items-center">
-          <input type="checkbox" checked disabled className="mr-2" />
-          Nødvendige (alltid aktivert)
-        </label>
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            className="mr-2"
-            checked={analyticsConsent}
-            onChange={() => setAnalyticsConsent(!analyticsConsent)}
-          />
-          Analyse og ytelse
-        </label>
-        <label className="flex items-center">
-          <input
-            type="checkbox"
-            className="mr-2"
-            checked={marketingConsent}
-            onChange={() => setMarketingConsent(!marketingConsent)}
-          />
-          Markedsføring
-        </label>
-      </div>
-      <div className="flex justify-end gap-2">
-        <button
-          onClick={() => setShowPreferences(false)}
-          className="text-sm border border-gray-400 px-4 py-1 rounded hover:bg-gray-100"
-        >
-          Avbryt
-        </button>
-        <button
-          onClick={() => handleConsent(true, { analytics: analyticsConsent, marketing: marketingConsent })}
-          className="text-sm bg-indigo-600 text-white px-4 py-1 rounded hover:bg-indigo-700"
-        >
-          Lagre innstillinger
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+      {showPreferences && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md border border-gray-300 pointer-events-auto">
+            <h2 className="text-lg font-bold mb-4">Tilpass informasjonskapsler</h2>
+            <div className="space-y-2 mb-4">
+              <label className="flex items-center">
+                <input type="checkbox" checked disabled className="mr-2" />
+                Nødvendige (alltid aktivert)
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  checked={analyticsConsent}
+                  onChange={() => setAnalyticsConsent(!analyticsConsent)}
+                />
+                Analyse og ytelse
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  checked={marketingConsent}
+                  onChange={() => setMarketingConsent(!marketingConsent)}
+                />
+                Markedsføring
+              </label>
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowPreferences(false)}
+                className="text-sm border border-gray-400 px-4 py-1 rounded hover:bg-gray-100"
+              >
+                Avbryt
+              </button>
+              <button
+                onClick={() => handleConsent(true, { analytics: analyticsConsent, marketing: marketingConsent })}
+                className="text-sm bg-indigo-600 text-white px-4 py-1 rounded hover:bg-indigo-700"
+              >
+                Lagre innstillinger
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
 
       {/* 📈 GA4 */}

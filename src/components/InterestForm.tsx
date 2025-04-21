@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Script from "next/script"
-import { insertInterest } from "@/lib/supabase/insert-intrest"
 
 export default function InterestForm() {
   const [email, setEmail] = useState("")
@@ -33,31 +32,34 @@ export default function InterestForm() {
         return
       }
 
-      const { error } = await insertInterest(email, name, result.score)
-      if (error) {
-        if (error.code === "23505") {
-          setError("Denne e-posten er allerede registrert.")
+      const response = await fetch("/api/submit-interest", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          name,
+          recaptcha_score: result.score,
+        }),
+      })
 
-          if (typeof window !== "undefined" && typeof window.gtag === "function") {
-            window.gtag("event", "duplicate_interest", {
-              event_category: "Interest Form",
-              event_label: `Email: ${email} | Name: ${name}`,
-            })
-          }
-        } else {
-          setError("Noe gikk galt, prøv igjen.")
-        }
-      } else {
-        setSubmitted(true)
-        setEmail("")
-        setName("")
+      const resultData = await response.json()
 
-        if (typeof window !== "undefined" && typeof window.gtag === "function") {
-          window.gtag("event", "submitted_interest", {
-            event_category: "Interest Form",
-            event_label: `Email: ${email} | Name: ${name}`,
-          })
-        }
+      if (!response.ok) {
+        setError(resultData.message || "Noe gikk galt, prøv igjen.")
+        return
+      }
+
+      setSubmitted(true)
+      setEmail("")
+      setName("")
+
+      if (typeof window !== "undefined" && typeof window.gtag === "function") {
+        window.gtag("event", "submitted_interest", {
+          event_category: "Interest Form",
+          event_label: `Email: ${email} | Name: ${name}`,
+        })
       }
     } catch (error: unknown) {
       console.error("Recaptcha error:", error)

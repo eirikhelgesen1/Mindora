@@ -164,7 +164,4 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     </>
   )
 }
-function setShowBanner(arg0: boolean) {
-  throw new Error('Function not implemented.');
-}
 
